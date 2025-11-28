@@ -138,10 +138,11 @@ process.on('SIGINT', async () => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    const baseUrl = process.env.RAILWAY_STATIC_URL
-        ? `https://${process.env.RAILWAY_STATIC_URL}`
-        : `http://localhost:${PORT}`;
+const REAL_PORT = process.env.PORT || PORT || 8080;
+app.listen(REAL_PORT, () => {
+const baseUrl = process.env.RAILWAY_PUBLIC_DOMAIN
+    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+    : `http://localhost:${REAL_PORT}`;
 
     console.log(`\n🚀 Rich and Jane Coffee API Server`);
     console.log(`📍 Server running on ${baseUrl}`);
@@ -151,7 +152,7 @@ app.listen(PORT, () => {
     console.log(`📚 API Documentation: ${baseUrl}/api/docs`);
     console.log(`💚 Health Check: ${baseUrl}/api/system/health`);
     console.log(`\n⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔧 Database: ${process.env.DB_NAME}`);
+    console.log(`🔧 Database: ${process.env.MYSQLDATABASE}`);
     console.log(`📊 Cache TTL: Menu=${process.env.MENU_CACHE_TTL || 300}s, Orders=${process.env.ORDER_CACHE_TTL || 30}s`);
     console.log(`\n✨ Server is ready to accept requests!\n`);
 });
