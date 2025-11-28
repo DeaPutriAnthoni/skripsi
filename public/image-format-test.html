@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Format Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-item { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .test-image { max-width: 200px; height: auto; border: 2px solid #ccc; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Image Format Testing</h1>
+    
+    <h2>Local Images Test</h2>
+    <div class="test-item">
+        <h3>Almond Croissant (JPG - 684KB)</h3>
+        <img src="/images/menu/almond-croissant.jpg" class="test-image" 
+             onload="this.nextElementSibling.innerHTML='<span class=success>✅ Local image loaded</span>'"
+             onerror="this.nextElementSibling.innerHTML='<span class=error>❌ Local image failed</span>'">
+        <div></div>
+    </div>
+    
+    <div class="test-item">
+        <h3>Fish n Chips (JPG)</h3>
+        <img src="/images/menu/fish-and-chips.jpg" class="test-image"
+             onload="this.nextElementSibling.innerHTML='<span class=success>✅ Local image loaded</span>'"
+             onerror="this.nextElementSibling.innerHTML='<span class=error>❌ Local image failed</span>'">
+        <div></div>
+    </div>
+    
+    <h2>External Images Test</h2>
+    <div class="test-item">
+        <h3>External Unsplash Image</h3>
+        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400" class="test-image"
+             onload="this.nextElementSibling.innerHTML='<span class=success>✅ External image loaded</span>'"
+             onerror="this.nextElementSibling.innerHTML='<span class=error>❌ External image failed</span>'">
+        <div></div>
+    </div>
+    
+    <h2>API Test</h2>
+    <div id="api-test">
+        <p>Testing API images...</p>
+    </div>
+    
+    <script>
+        async function testAPIImages() {
+            try {
+                const response = await fetch('http://localhost:8080/api/menu');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const apiTest = document.getElementById('api-test');
+                    apiTest.innerHTML = '<h3>API Images (First 3 items):</h3>';
+                    
+                    const items = data.data.data.slice(0, 3);
+                    items.forEach((item, index) => {
+                        apiTest.innerHTML += `
+                            <div class="test-item">
+                                <h4>${index + 1}. ${item.name}</h4>
+                                <p><strong>URL:</strong> ${item.image_url}</p>
+                                <img src="${item.image_url}" class="test-image"
+                                     onload="this.nextElementSibling.innerHTML='<span class=success>✅ API image loaded</span>'"
+                                     onerror="this.nextElementSibling.innerHTML='<span class=error>❌ API image failed: ' + this.src</span>'">
+                                <div></div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                document.getElementById('api-test').innerHTML = `<p class="error">API Error: ${error.message}</p>`;
+            }
+        }
+        
+        testAPIImages();
+    </script>
+</body>
+</html>

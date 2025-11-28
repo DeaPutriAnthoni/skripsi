@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+</head>
+<body>
+    <h1>Testing Menu Images</h1>
+    <div id="image-test"></div>
+    
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        const testDiv = document.getElementById('image-test');
+        
+        async function testImages() {
+            try {
+                const response = await fetch(`${API_URL}/menu`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const items = data.data.data.slice(0, 5); // Test first 5 items
+                    
+                    items.forEach((item, index) => {
+                        testDiv.innerHTML += `
+                            <div style="margin: 20px 0; padding: 10px; border: 1px solid #ccc;">
+                                <h3>${item.name}</h3>
+                                <p>Image URL: ${item.image_url}</p>
+                                <img src="${item.image_url}" alt="${item.name}" 
+                                     style="max-width: 200px; height: auto; display: block;"
+                                     onerror="this.style.border='2px solid red'; this.nextElementSibling.innerHTML='FAILED: ' + this.src">
+                                <div style="color: red;"></div>
+                                <hr>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        testImages();
+    </script>
+</body>
+</html>

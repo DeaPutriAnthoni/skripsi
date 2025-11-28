@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struk Pesanan - Rich and Jane Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Rich & Jane Coffee Theme - Receipt */
+            --burgundy-50: #fef7f7;
+            --burgundy-100: #fdeeee;
+            --burgundy-200: #fbd5d5;
+            --burgundy-300: #f8b4b4;
+            --burgundy-400: #f38787;
+            --burgundy-500: #ee5a5a;
+            --burgundy-600: #dc2626;
+            --burgundy-700: #b91c1c;
+            --burgundy-800: #991b1b;
+            --burgundy-900: #7f1d1d;
+            
+            --cream-50: #fefefe;
+            --cream-100: #fdfcfb;
+            --cream-200: #f8f6f5;
+            --cream-300: #f1ede9;
+            --cream-400: #e8dfd8;
+            --cream-500: #dccfc4;
+            --cream-600: #c9b5a5;
+            --cream-700: #a68973;
+            --cream-800: #856b58;
+            --cream-900: #6b5434;
+            
+            --success: #16a34a;
+            --warning: #d97706;
+            --error: #dc2626;
+            --info: #2563eb;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, var(--burgundy-50) 0%, var(--cream-50) 100%);
+            min-height: 100vh;
+            padding: var(--space-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Receipt Container */
+        .receipt-container {
+            background: white;
+            max-width: 480px;
+            width: 100%;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-2xl);
+            animation: slideUp var(--transition-slow) ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .receipt-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Success Section */
+        .success-section {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .receipt-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 auto var(--space-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            animation: scaleIn var(--transition-normal) ease-out 0.2s both;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--success), #059669);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-lg);
+            box-shadow: var(--shadow-lg);
+            animation: scaleIn var(--transition-normal) ease-out 0.2s both;
+        }
+
+        .success-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .receipt-title {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--burgundy-800);
+            margin-bottom: var(--space-sm);
+        }
+
+        .receipt-subtitle {
+            color: var(--burgundy-600);
+            font-weight: 500;
+            font-size: 1.125rem;
+        }
+
+        /* Order Info */
+        .order-info {
+            background: var(--cream-50);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--cream-200);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            text-align: center;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--burgundy-600);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--burgundy-600);
+        }
+
+        /* Items Section */
+        .items-section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .section-header {
+            font-weight: 700;
+            color: var(--burgundy-800);
+            margin-bottom: var(--space-lg);
+            font-size: 1.125rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .items-list {
+            background: var(--cream-50);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            border: 1px solid var(--cream-200);
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--cream-200);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--burgundy-800);
+            margin-bottom: var(--space-xs);
+            font-size: 1rem;
+        }
+
+        .item-detail {
+            font-size: 0.875rem;
+            color: var(--burgundy-600);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .item-quantity {
+            background: var(--burgundy-100);
+            color: var(--burgundy-700);
+            padding: 2px var(--space-xs);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: var(--burgundy-600);
+            font-size: 1.125rem;
+            white-space: nowrap;
+            margin-left: var(--space-md);
+        }
+
+        /* Total Section */
+        .total-section {
+            background: linear-gradient(135deg, var(--burgundy-500), var(--burgundy-600));
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            color: white;
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .total-label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        /* Note Section */
+        .note-section {
+            background: linear-gradient(135deg, var(--info), #2563eb);
+            color: white;
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .note-title {
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            font-size: 1.125rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .note-text {
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .btn {
+            flex: 1;
+            padding: var(--space-lg);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--burgundy-500), var(--burgundy-600));
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--burgundy-600);
+            border: 2px solid var(--burgundy-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--burgundy-50);
+            border-color: var(--burgundy-400);
+            transform: translateY(-1px);
+        }
+
+        /* Loading State */
+        .loading-container {
+            text-align: center;
+            padding: var(--space-3xl);
+            color: var(--burgundy-600);
+        }
+
+        .loading-spinner {
+            border: 4px solid var(--cream-200);
+            border-top: 4px solid var(--burgundy-500);
+            border-radius: var(--radius-full);
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-lg);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-lg);
+            }
+
+            .receipt-container {
+                padding: var(--space-xl);
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+                text-align: left;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+
+            .item-price {
+                margin-left: 0;
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .receipt-title {
+                font-size: 1.5rem;
+            }
+
+            .total-row {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .receipt-container {
+                box-shadow: none;
+                max-width: 100%;
+                border-radius: 0;
+                padding: var(--space-lg);
+            }
+
+            .action-buttons {
+                display: none;
+            }
+
+            .receipt-container::before {
+                display: none;
+            }
+        }
+
+        /* Utility Classes */
+        .fade-in {
+            animation: fadeIn var(--transition-normal);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <!-- Loading State -->
+        <div class="loading-container" id="loading">
+            <div class="loading-spinner"></div>
+            <div>Memuat struk pesanan...</div>
+        </div>
+
+        <!-- Receipt Content -->
+        <div id="receiptContent" style="display: none;">
+            <!-- Success Section -->
+            <div class="success-section">
+                <img src="images/logo/logo.jpg" alt="Rich & Jane Coffee" class="receipt-logo">
+                <h1 class="receipt-title">Pesanan Berhasil!</h1>
+                <p class="receipt-subtitle">Rich and Jane Coffee</p>
+            </div>
+
+            <!-- Order Info -->
+            <div class="order-info">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">No. Pesanan</div>
+                        <div class="info-value" id="orderId">#-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">No. Meja</div>
+                        <div class="info-value" id="tableNumber">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Waktu</div>
+                        <div class="info-value" id="orderTime">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Section -->
+            <div class="items-section">
+                <h3 class="section-header">
+                    <i class="fas fa-receipt"></i>
+                    Detail Pesanan
+                </h3>
+                <div class="items-list" id="itemsList"></div>
+            </div>
+
+            <!-- Total Section -->
+            <div class="total-section">
+                <div class="total-row">
+                    <span class="total-label">
+                        <i class="fas fa-calculator"></i>
+                        Total Pembayaran
+                    </span>
+                    <span id="totalAmount">Rp 0</span>
+                </div>
+            </div>
+
+            <!-- Note Section -->
+            <div class="note-section">
+                <h4 class="note-title">
+                    <i class="fas fa-info-circle"></i>
+                    Catatan Penting
+                </h4>
+                <p class="note-text">
+                    Pesanan Anda sedang diproses oleh dapur. Mohon tunggu di meja Anda. 
+                    Silakan lakukan pembayaran di kasir setelah pesanan selesai. 
+                    Terima kasih! 😊
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="window.print()">
+                    <i class="fas fa-print"></i>
+                    Cetak
+                </button>
+                <button class="btn btn-primary" onclick="backToMenu()">
+                    <i class="fas fa-home"></i>
+                    Kembali ke Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        let orderId = null;
+        let tableNumber = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            orderId = params.get('orderId');
+
+            if (!orderId) {
+                showError('ID Pesanan tidak ditemukan!');
+                return;
+            }
+
+            loadReceipt();
+        });
+
+        async function loadReceipt() {
+            try {
+                console.log('Loading receipt for orderId:', orderId);
+                
+                // Try to get from localStorage first
+                const savedOrder = localStorage.getItem(`order_${orderId}`);
+                console.log('Saved order from localStorage:', savedOrder);
+                
+                if (savedOrder) {
+                    try {
+                        const orderData = JSON.parse(savedOrder);
+                        console.log('Parsed order data:', orderData);
+                        
+                        // Check if data is complete (has items)
+                        if (orderData.items && Array.isArray(orderData.items) && orderData.items.length > 0) {
+                            displayReceipt(orderData);
+                            return;
+                        } else {
+                            console.log('LocalStorage data incomplete, falling back to API');
+                        }
+                    } catch (e) {
+                        console.error('Error parsing localStorage data:', e);
+                        console.log('Falling back to API');
+                    }
+                }
+                
+                // Try API
+                console.log('Trying API...');
+                try {
+                    const response = await fetch(`${API_URL}/orders/${orderId}`);
+                    const data = await response.json();
+                    console.log('API response:', data);
+
+                    if (data.success) {
+                        displayReceipt(data.data);
+                        return;
+                    } else {
+                        throw new Error(data.message);
+                    }
+                } catch (apiError) {
+                    console.error('API Error:', apiError);
+                    throw new Error('Gagal memuat data dari API: ' + apiError.message);
+                }
+            } catch (error) {
+                console.error('Error loading receipt:', error);
+                showError('Gagal memuat struk pesanan: ' + error.message);
+            }
+        }
+
+        function displayReceipt(order) {
+            console.log('Displaying order:', order);
+            console.log('Order type:', typeof order);
+            console.log('Order keys:', Object.keys(order));
+            
+            if (!order) {
+                console.error('Order is null or undefined');
+                showError('Data pesanan kosong');
+                return;
+            }
+            
+            tableNumber = order.table_number;
+
+            // Check if items exist and is an array
+            console.log('Order.items:', order.items);
+            console.log('Type of order.items:', typeof order.items);
+            console.log('Is Array?', Array.isArray(order.items));
+            
+            if (!order.items) {
+                console.error('Order.items is undefined');
+                showError('Data item pesanan tidak ditemukan');
+                return;
+            }
+            
+            if (!Array.isArray(order.items)) {
+                console.error('Order.items is not an array:', order.items);
+                showError('Data item pesanan bukan array');
+                return;
+            }
+            
+            if (order.items.length === 0) {
+                console.error('Order.items is empty');
+                showError('Pesanan tidak memiliki item');
+                return;
+            }
+
+            // Calculate total if not provided
+            const totalAmount = order.total_amount || order.items.reduce((total, item) => {
+                console.log('Calculating item:', item.item_name || item.name, 'price:', item.price, 'qty:', item.quantity);
+                return total + (parseFloat(item.price) * parseInt(item.quantity));
+            }, 0);
+            
+            console.log('Total amount calculated:', totalAmount);
+
+            // Update order info
+            document.getElementById('orderId').textContent = `#${order.order_id}`;
+            document.getElementById('tableNumber').textContent = order.table_number || '-';
+            document.getElementById('orderTime').textContent = formatDateTime(order.created_at);
+            document.getElementById('totalAmount').textContent = `Rp ${formatPrice(totalAmount)}`;
+
+            // Update items list
+            const itemsList = document.getElementById('itemsList');
+            
+            itemsList.innerHTML = order.items.map(item => {
+                console.log('Rendering item:', item);
+                console.log('Item keys:', Object.keys(item));
+                return `
+                <div class="item">
+                    <div class="item-info">
+                        <div class="item-name">${item.item_name || item.name || 'Unknown Item'}</div>
+                        <div class="item-detail">
+                            <span class="item-quantity">${item.quantity || 0}x</span>
+                            <span>@ Rp ${formatPrice(item.price || 0)}</span>
+                        </div>
+                    </div>
+                    <div class="item-price">Rp ${formatPrice((item.quantity || 0) * (item.price || 0))}</div>
+                </div>
+            `;
+            }).join('');
+
+            // Hide loading and show receipt content
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('receiptContent').style.display = 'block';
+        }
+
+        function showError(message) {
+            document.getElementById('loading').innerHTML = `
+                <div style="color: var(--error); font-weight: 600;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                    ${message}
+                </div>
+                <button onclick="backToMenu()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--primary-500); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">
+                    Kembali ke Menu
+                </button>
+            `;
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('id-ID').format(price);
+        }
+
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function backToMenu() {
+            if (tableNumber) {
+                window.location.href = `menu.html?table=${tableNumber}`;
+            } else {
+                window.location.href = 'menu.html';
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+            if (e.key === 'Escape') {
+                backToMenu();
+            }
+        });
+
+        // Auto-print option (can be enabled if needed)
+        // setTimeout(() => {
+        //     window.print();
+        // }, 1000);
+    </script>
+</body>
+</html>

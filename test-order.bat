@@ -1,0 +1,9 @@
+@echo off
+echo Testing order endpoint...
+cd /d "D:\skripsi"
+echo Starting server in background...
+start /B node test-connection.js
+timeout 3 > nul
+echo Testing order...
+node test-order.js
+pause

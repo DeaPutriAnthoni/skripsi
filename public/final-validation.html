@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Image Validation</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f8f9fa; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .stats { background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .menu-item { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .menu-item:hover { transform: translateY(-2px); }
+        .menu-image { width: 100%; height: 180px; object-fit: cover; }
+        .menu-info { padding: 15px; }
+        .menu-name { font-weight: bold; margin-bottom: 5px; color: #333; }
+        .menu-url { font-size: 12px; color: #666; word-break: break-all; }
+        .status { margin-top: 8px; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+        .summary { text-align: center; margin: 20px 0; }
+        .progress-bar { width: 100%; height: 20px; background: #e9ecef; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🖼️ Final Image Validation</h1>
+        <p>Validating all menu images with local files</p>
+    </div>
+    
+    <div class="stats">
+        <h3>📊 Validation Statistics</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <p id="stats-text">Initializing...</p>
+    </div>
+    
+    <div class="menu-grid" id="menu-grid"></div>
+    
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        let totalItems = 0;
+        let loadedImages = 0;
+        let failedImages = 0;
+        
+        async function validateAllImages() {
+            try {
+                const response = await fetch(`${API_URL}/menu`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const items = data.data.data;
+                    totalItems = items.length;
+                    
+                    const grid = document.getElementById('menu-grid');
+                    
+                    items.forEach((item, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'menu-item';
+                        card.innerHTML = `
+                            <img src="${item.image_url}" 
+                                 alt="${item.name}"
+                                 class="menu-image"
+                                 onload="handleImageLoad(true, ${index}, '${item.name}')"
+                                 onerror="handleImageLoad(false, ${index}, '${item.name}')">
+                            <div class="menu-info">
+                                <div class="menu-name">${item.name}</div>
+                                <div class="menu-url">${item.image_url}</div>
+                                <div class="status loading" id="status-${index}">Loading...</div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                    
+                    updateStats();
+                }
+            } catch (error) {
+                document.getElementById('stats-text').innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        function handleImageLoad(success, index, itemName) {
+            if (success) {
+                loadedImages++;
+                document.getElementById(`status-${index}`).className = 'status success';
+                document.getElementById(`status-${index}`).textContent = '✅ Loaded';
+            } else {
+                failedImages++;
+                document.getElementById(`status-${index}`).className = 'status error';
+                document.getElementById(`status-${index}`).textContent = '❌ Failed';
+            }
+            
+            updateStats();
+        }
+        
+        function updateStats() {
+            const tested = loadedImages + failedImages;
+            const percentage = totalItems > 0 ? Math.round((tested / totalItems) * 100) : 0;
+            const successRate = tested > 0 ? Math.round((loadedImages / tested) * 100) : 0;
+            
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+            document.getElementById('stats-text').innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center;">
+                    <div>
+                        <strong>Total Items:</strong><br>
+                        <span style="font-size: 24px; color: #007bff;">${totalItems}</span>
+                    </div>
+                    <div>
+                        <strong>✅ Successfully Loaded:</strong><br>
+                        <span style="font-size: 24px; color: #28a745;">${loadedImages}</span>
+                    </div>
+                    <div>
+                        <strong>❌ Failed to Load:</strong><br>
+                        <span style="font-size: 24px; color: #dc3545;">${failedImages}</span>
+                    </div>
+                    <div>
+                        <strong>📈 Success Rate:</strong><br>
+                        <span style="font-size: 24px; color: #17a2b8;">${successRate}%</span>
+                    </div>
+                    <div>
+                        <strong>⏳ Progress:</strong><br>
+                        <span style="font-size: 24px; color: #6c757d;">${tested}/${totalItems}</span>
+                    </div>
+                </div>
+            `;
+            
+            if (tested === totalItems && tested > 0) {
+                setTimeout(() => {
+                    if (failedImages === 0) {
+                        alert('🎉 Perfect! All images loaded successfully!');
+                    } else {
+                        alert(`⚠️ Validation complete: ${loadedImages}/${totalItems} images loaded successfully.`);
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Start validation
+        validateAllImages();
+    </script>
+</body>
+</html>

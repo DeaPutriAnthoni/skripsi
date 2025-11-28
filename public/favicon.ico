@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich and Jane Coffee</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+</head>
+<body>
+    <h1>Rich and Jane Coffee API</h1>
+    <p>Server is running!</p>
+    <a href="/menu.html?table=1">Menu</a> | 
+    <a href="/kitchen.html">Kitchen</a> | 
+    <a href="/qrcode.html">QR Generator</a> | 
+    <a href="/api/docs">API Docs</a>
+</body>
+</html>

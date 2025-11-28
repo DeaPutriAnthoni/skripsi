@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .menu-item { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
+        .menu-image { max-width: 150px; height: auto; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Debug Menu Images</h1>
+    <div id="debug-info"></div>
+    
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        const debugDiv = document.getElementById('debug-info');
+        
+        async function debugMenu() {
+            debugDiv.innerHTML = '<p>Loading menu...</p>';
+            
+            try {
+                // Test API connection
+                const response = await fetch(`${API_URL}/menu`);
+                debugDiv.innerHTML += `<p class="success">✅ API Response: ${response.status}</p>`;
+                
+                const data = await response.json();
+                debugDiv.innerHTML += `<p class="success">✅ JSON Parsed: ${data.success}</p>`;
+                
+                if (data.success) {
+                    const items = data.data.data.slice(0, 3);
+                    debugDiv.innerHTML += `<p>Testing ${items.length} items...</p>`;
+                    
+                    items.forEach((item, index) => {
+                        debugDiv.innerHTML += `
+                            <div class="menu-item">
+                                <h4>${index + 1}. ${item.name}</h4>
+                                <p><strong>Image URL:</strong> ${item.image_url}</p>
+                                <p><strong>Testing image...</strong></p>
+                                <img src="${item.image_url}" 
+                                     alt="${item.name}" 
+                                     class="menu-image"
+                                     onload="this.nextElementSibling.innerHTML='<span class=success>✅ Loaded</span>'"
+                                     onerror="this.nextElementSibling.innerHTML='<span class=error>❌ Failed - ' + this.src + '</span>'">
+                                <div></div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                debugDiv.innerHTML += `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        debugMenu();
+    </script>
+</body>
+</html>

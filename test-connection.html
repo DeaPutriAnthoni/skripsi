@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Connection Test</title>
+</head>
+<body>
+    <h1>Testing API Connection</h1>
+    <div id="results"></div>
+    
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        const results = document.getElementById('results');
+        
+        async function testAPI() {
+            try {
+                results.innerHTML = '<p>Testing menu API...</p>';
+                const menuResponse = await fetch(`${API_URL}/menu`);
+                const menuData = await menuResponse.json();
+                
+                if (menuData.success) {
+                    results.innerHTML += `<p>✅ Menu API: ${menuData.data.count} items loaded</p>`;
+                } else {
+                    results.innerHTML += `<p>❌ Menu API failed: ${menuData.message}</p>`;
+                }
+                
+                results.innerHTML += '<p>Testing order creation...</p>';
+                const orderResponse = await fetch(`${API_URL}/orders/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        table_number: 1,
+                        items: [{ menu_item_id: 1, quantity: 1 }]
+                    })
+                });
+                const orderData = await orderResponse.json();
+                
+                if (orderData.success) {
+                    results.innerHTML += `<p>✅ Order API: Order #${orderData.data.order_id} created</p>`;
+                } else {
+                    results.innerHTML += `<p>❌ Order API failed: ${orderData.message}</p>`;
+                }
+                
+            } catch (error) {
+                results.innerHTML += `<p>❌ Connection Error: ${error.message}</p>`;
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

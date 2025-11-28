@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Rich and Jane Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Rich & Jane Coffee Theme - QR Generator */
+            --burgundy-50: #fef7f7;
+            --burgundy-100: #fdeeee;
+            --burgundy-200: #fbd5d5;
+            --burgundy-300: #f8b4b4;
+            --burgundy-400: #f38787;
+            --burgundy-500: #ee5a5a;
+            --burgundy-600: #dc2626;
+            --burgundy-700: #b91c1c;
+            --burgundy-800: #991b1b;
+            --burgundy-900: #7f1d1d;
+            
+            --cream-50: #fefefe;
+            --cream-100: #fdfcfb;
+            --cream-200: #f8f6f5;
+            --cream-300: #f1ede9;
+            --cream-400: #e8dfd8;
+            --cream-500: #dccfc4;
+            --cream-600: #c9b5a5;
+            --cream-700: #a68973;
+            --cream-800: #856b58;
+            --cream-900: #6b5434;
+            
+            --success: #16a34a;
+            --warning: #d97706;
+            --error: #dc2626;
+            --info: #2563eb;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, var(--burgundy-50) 0%, var(--cream-50) 100%);
+            min-height: 100vh;
+            color: var(--burgundy-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--burgundy-200);
+            padding: var(--space-xl) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            text-align: center;
+        }
+
+        .header-logo {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .header-logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--burgundy-500), var(--burgundy-600));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            color: var(--burgundy-600);
+            font-weight: 500;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-xl);
+        }
+
+        /* Generator Section */
+        .generator-section {
+            background: white;
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-2xl);
+            border: 1px solid var(--burgundy-200);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--burgundy-800);
+            margin-bottom: var(--space-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .input-group {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: var(--space-lg);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--burgundy-500);
+            font-size: 1.125rem;
+        }
+
+        .table-input {
+            width: 100%;
+            padding: var(--space-lg) var(--space-lg) var(--space-lg) 3rem;
+            border: 2px solid var(--burgundy-200);
+            border-radius: var(--radius-xl);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            background: var(--burgundy-50);
+        }
+
+        .table-input:focus {
+            outline: none;
+            border-color: var(--burgundy-400);
+            background: white;
+            box-shadow: 0 0 0 3px var(--burgundy-100);
+        }
+
+        .btn {
+            padding: var(--space-lg) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--burgundy-500), var(--burgundy-600));
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--burgundy-700);
+            border: 2px solid var(--burgundy-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--burgundy-50);
+            border-color: var(--burgundy-400);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--error), #dc2626) !important;
+            color: white !important;
+            border-color: var(--error) !important;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-top: var(--space-xl);
+        }
+
+        .quick-actions-title {
+            font-weight: 600;
+            color: var(--burgundy-700);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .quick-buttons {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--burgundy-50);
+            border: 2px solid var(--burgundy-200);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition-normal);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .quick-btn:hover {
+            border-color: var(--burgundy-300);
+            background: var(--burgundy-50);
+            color: var(--burgundy-700);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, var(--info), #2563eb);
+            color: white;
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            margin-top: var(--space-xl);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .info-box h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .info-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .info-list li {
+            padding: var(--space-xs) 0;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+
+        .info-list li::before {
+            content: '✓';
+            background: rgba(255, 255, 255, 0.2);
+            width: 20px;
+            height: 20px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* QR Grid */
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .qr-card {
+            background: white;
+            padding: var(--space-xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: all var(--transition-normal);
+            border: 1px solid var(--burgundy-200);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--burgundy-500), var(--burgundy-600));
+        }
+
+        .qr-card:hover {
+            box-shadow: var(--shadow-2xl);
+            transform: translateY(-8px);
+        }
+
+        .qr-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            color: var(--burgundy-800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        .qr-code-container {
+            background: var(--burgundy-50);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-lg);
+            border: 2px dashed var(--burgundy-300);
+            position: relative;
+        }
+
+        .qr-code-image {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .qr-actions {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .qr-actions .btn {
+            flex: 1;
+            font-size: 0.875rem;
+            padding: var(--space-md) var(--space-lg);
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-content {
+            background: white;
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            text-align: center;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .loading-spinner {
+            border: 4px solid var(--burgundy-200);
+            border-top: 4px solid var(--burgundy-500);
+            border-radius: var(--radius-full);
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-lg);
+        }
+
+        .loading-text {
+            font-weight: 600;
+            color: var(--burgundy-700);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-3xl);
+            color: var(--burgundy-500);
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--burgundy-200);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--burgundy-700);
+            margin-bottom: var(--space-sm);
+        }
+
+        .empty-text {
+            color: var(--burgundy-500);
+        }
+
+        /* Responsive Design - Optimized for Mobile */
+        @media (max-width: 1024px) {
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .header-logo-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .header-title {
+                font-size: 1.75rem;
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .generator-section {
+                padding: var(--space-lg);
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+
+            .input-wrapper {
+                min-width: 100%;
+            }
+
+            .table-input {
+                font-size: 1rem;
+                padding: var(--space-md);
+            }
+
+            .btn {
+                padding: var(--space-md) var(--space-lg);
+                font-size: 1rem;
+            }
+
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: var(--space-md);
+            }
+
+            .qr-card {
+                padding: var(--space-lg);
+            }
+
+            .qr-code {
+                width: 140px;
+                height: 140px;
+            }
+
+            .table-number {
+                font-size: 1.25rem;
+            }
+
+            .quick-buttons {
+                flex-wrap: wrap;
+                gap: var(--space-sm);
+                justify-content: center;
+            }
+
+            .quick-btn {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: var(--space-md) var(--space-sm);
+            }
+
+            .header-logo-img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .header-title {
+                font-size: 1.5rem;
+            }
+
+            .header-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: var(--space-md) var(--space-sm);
+            }
+
+            .generator-section {
+                padding: var(--space-md);
+            }
+
+            .section-title {
+                font-size: 1.125rem;
+            }
+
+            .input-group {
+                gap: var(--space-sm);
+            }
+
+            .table-input {
+                font-size: 0.95rem;
+                padding: var(--space-sm) var(--space-md);
+            }
+
+            .btn {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 0.95rem;
+            }
+
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: var(--space-sm);
+            }
+
+            .qr-card {
+                padding: var(--space-md);
+            }
+
+            .qr-code {
+                width: 120px;
+                height: 120px;
+            }
+
+            .table-number {
+                font-size: 1.125rem;
+            }
+
+            .quick-buttons {
+                gap: var(--space-xs);
+            }
+
+            .quick-btn {
+                padding: var(--space-xs) var(--space-sm);
+                font-size: 0.8rem;
+            }
+
+            .download-btn {
+                padding: var(--space-xs) var(--space-sm);
+                font-size: 0.75rem;
+            }
+        }
+
+            .container {
+                padding: var(--space-xl) var(--space-lg);
+            }
+
+            .generator-section {
+                padding: var(--space-xl);
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-wrapper {
+                min-width: 100%;
+            }
+
+            .qr-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .qr-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header,
+            .generator-section,
+            .info-box {
+                display: none;
+            }
+
+            .qr-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-lg);
+            }
+
+            .qr-card {
+                box-shadow: none;
+                border: 1px solid var(--burgundy-300);
+                break-inside: avoid;
+            }
+
+            .qr-actions {
+                display: none;
+            }
+        }
+
+        /* Utility Classes */
+        .fade-in {
+            animation: fadeIn var(--transition-normal);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp var(--transition-normal);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="images/logo/logo.jpg" alt="Rich & Jane Coffee" class="header-logo-img">
+            </div>
+            <h1 class="header-title">
+                <i class="fas fa-qrcode"></i>
+                QR Code Generator
+            </h1>
+            <p class="header-subtitle">Generate QR Code untuk setiap meja di Rich and Jane Coffee</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="generator-section">
+            <h2 class="section-title">
+                <i class="fas fa-cogs"></i>
+                Generate QR Code
+            </h2>
+            
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <i class="fas fa-hashtag input-icon"></i>
+                    <input 
+                        type="number" 
+                        id="tableInput" 
+                        class="table-input"
+                        placeholder="Nomor Meja (contoh: 1)" 
+                        min="1" 
+                        max="50"
+                        autocomplete="off"
+                    >
+                </div>
+                <button class="btn btn-primary" onclick="generateSingle()">
+                    <i class="fas fa-plus-circle"></i>
+                    Generate QR Code
+                </button>
+            </div>
+
+            <div class="quick-actions">
+                <div class="quick-actions-title">
+                    <i class="fas fa-bolt"></i>
+                    Quick Generate:
+                </div>
+                <div class="quick-buttons">
+                    <button class="quick-btn" onclick="generateRange(1, 12)">
+                        <i class="fas fa-chair"></i>
+                        Meja 1-12
+                    </button>
+                    <button class="quick-btn" onclick="generateRange(1, 20)">
+                        <i class="fas fa-store"></i>
+                        Meja 1-20
+                    </button>
+                    <button class="quick-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i>
+                        Print All
+                    </button>
+                    <button class="quick-btn btn-danger" onclick="clearAll()">
+                        <i class="fas fa-trash"></i>
+                        Clear All
+                    </button>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>
+                    <i class="fas fa-info-circle"></i>
+                    Cara Penggunaan
+                </h4>
+                <ul class="info-list">
+                    <li>Masukkan nomor meja dan klik "Generate QR Code"</li>
+                    <li>Gunakan "Quick Generate" untuk membuat beberapa QR Code sekaligus</li>
+                    <li>Download QR Code untuk dicetak dan ditempelkan di meja</li>
+                    <li>Pelanggan scan QR Code untuk melihat menu dan memesan</li>
+                    <li>Gunakan tombol "Print All" untuk mencetak semua QR Code sekaligus</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="qr-grid" id="qrGrid">
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <div class="empty-title">Belum Ada QR Code</div>
+                <div class="empty-text">Generate QR Code untuk meja-mejamu dimulai dari sini</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Generating QR Codes...</div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        const qrCodes = new Map();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Focus on input
+            document.getElementById('tableInput').focus();
+            
+            // Load any saved QR codes from localStorage
+            loadSavedQRCodes();
+        });
+
+        function loadSavedQRCodes() {
+            const saved = localStorage.getItem('generated_qr_codes');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    data.forEach(item => {
+                        qrCodes.set(item.tableNumber, item.data);
+                    });
+                    displayQRCodes();
+                } catch (error) {
+                    console.error('Error loading saved QR codes:', error);
+                }
+            }
+        }
+
+        function saveQRCodes() {
+            const data = Array.from(qrCodes.entries()).map(([tableNumber, data]) => ({
+                tableNumber,
+                data
+            }));
+            localStorage.setItem('generated_qr_codes', JSON.stringify(data));
+        }
+
+        async function generateSingle() {
+            const tableInput = document.getElementById('tableInput');
+            const tableNumber = parseInt(tableInput.value);
+
+            if (!tableNumber || tableNumber < 1) {
+                showNotification('Mohon masukkan nomor meja yang valid (minimal 1)', 'error');
+                tableInput.focus();
+                return;
+            }
+
+            if (tableNumber > 50) {
+                showNotification('Nomor meja maksimal adalah 50', 'error');
+                tableInput.focus();
+                return;
+            }
+
+            if (qrCodes.has(tableNumber)) {
+                showNotification(`QR Code untuk meja ${tableNumber} sudah ada!`, 'warning');
+                return;
+            }
+
+            await generateQRCode(tableNumber);
+            tableInput.value = '';
+            tableInput.focus();
+        }
+
+        async function generateRange(start, end) {
+            if (qrCodes.size > 0) {
+                if (!confirm('Generate QR Code baru akan menghapus semua yang sudah ada. Lanjutkan?')) {
+                    return;
+                }
+                qrCodes.clear();
+            }
+
+            showLoading(true);
+            
+            for (let i = start; i <= end; i++) {
+                await generateQRCode(i, false);
+            }
+            
+            saveQRCodes();
+            displayQRCodes();
+            showLoading(false);
+            showNotification(`Berhasil generate ${end - start + 1} QR Code!`, 'success');
+        }
+
+        async function generateQRCode(tableNumber, showFeedback = true) {
+            try {
+                const response = await fetch(`${API_URL}/qrcode/${tableNumber}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    qrCodes.set(tableNumber, data.data);
+                    saveQRCodes();
+                    displayQRCodes();
+                    
+                    if (showFeedback) {
+                        showNotification(`QR Code untuk meja ${tableNumber} berhasil dibuat!`, 'success');
+                    }
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+                showNotification('Gagal generate QR code: ' + error.message, 'error');
+            }
+        }
+
+        function displayQRCodes() {
+            const grid = document.getElementById('qrGrid');
+            
+            if (qrCodes.size === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="empty-title">Belum Ada QR Code</div>
+                        <div class="empty-text">Generate QR Code untuk meja-mejamu dimulai dari sini</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedTables = Array.from(qrCodes.keys()).sort((a, b) => a - b);
+            
+            grid.innerHTML = sortedTables.map(tableNumber => {
+                const data = qrCodes.get(tableNumber);
+                return `
+                    <div class="qr-card fade-in">
+                        <h3 class="qr-title">
+                            <i class="fas fa-chair"></i>
+                            Meja ${tableNumber}
+                        </h3>
+                        <div class="qr-code-container">
+                            <img src="${data.qr_code}" alt="QR Code Meja ${tableNumber}" class="qr-code-image">
+                        </div>
+                        <div class="qr-actions">
+                            <button class="btn btn-success" onclick="downloadQRCode(${tableNumber})">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                            <button class="btn btn-secondary" onclick="removeQRCode(${tableNumber})">
+                                <i class="fas fa-trash"></i>
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function downloadQRCode(tableNumber) {
+            const data = qrCodes.get(tableNumber);
+            if (!data) return;
+
+            const link = document.createElement('a');
+            link.download = `qrcode-meja-${tableNumber}.png`;
+            link.href = data.qr_code;
+            link.click();
+            
+            showNotification(`QR Code meja ${tableNumber} berhasil diunduh!`, 'success');
+        }
+
+        function removeQRCode(tableNumber) {
+            if (confirm(`Hapus QR Code untuk meja ${tableNumber}?`)) {
+                qrCodes.delete(tableNumber);
+                saveQRCodes();
+                displayQRCodes();
+                showNotification(`QR Code meja ${tableNumber} berhasil dihapus!`, 'info');
+            }
+        }
+
+        function clearAll() {
+            if (qrCodes.size === 0) {
+                showNotification('Tidak ada QR Code untuk dihapus', 'info');
+                return;
+            }
+            
+            if (confirm(`Hapus semua ${qrCodes.size} QR Code yang sudah di-generate?`)) {
+                qrCodes.clear();
+                saveQRCodes();
+                displayQRCodes();
+                showNotification('Semua QR Code berhasil dihapus!', 'info');
+            }
+        }
+
+        function showLoading(show) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.toggle('show', show);
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 2000;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease-out;
+                max-width: 400px;
+            `;
+
+            // Set color based on type
+            const colors = {
+                success: 'linear-gradient(135deg, #10b981, #059669)',
+                error: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                warning: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                info: 'linear-gradient(135deg, #3b82f6, #2563eb)'
+            };
+
+            notification.style.background = colors[type] || colors.info;
+            notification.style.color = 'white';
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add slide animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Handle Enter key in input
+        document.getElementById('tableInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                generateSingle();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>
