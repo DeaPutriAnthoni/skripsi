@@ -138,16 +138,20 @@ process.on('SIGINT', async () => {
 });
 
 // Start server
-app.listen(PORT, '127.0.0.1', () => {
+app.listen(PORT, () => {
+    const baseUrl = process.env.RAILWAY_STATIC_URL
+        ? `https://${process.env.RAILWAY_STATIC_URL}`
+        : `http://localhost:${PORT}`;
+
     console.log(`\n🚀 Rich and Jane Coffee API Server`);
-    console.log(`📍 Server running on http://localhost:${PORT}`);
-    console.log(`📱 Menu Display: http://localhost:${PORT}/menu.html?table=1`);
-    console.log(`🍳 Kitchen Display: http://localhost:${PORT}/kitchen.html`);
-    console.log(`📋 QR Generator: http://localhost:${PORT}/qrcode.html`);
-    console.log(`📚 API Documentation: http://localhost:${PORT}/api/docs`);
-    console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`📍 Server running on ${baseUrl}`);
+    console.log(`📱 Menu Display: ${baseUrl}/menu.html?table=1`);
+    console.log(`🍳 Kitchen Display: ${baseUrl}/kitchen.html`);
+    console.log(`📋 QR Generator: ${baseUrl}/qrcode.html`);
+    console.log(`📚 API Documentation: ${baseUrl}/api/docs`);
+    console.log(`💚 Health Check: ${baseUrl}/api/system/health`);
     console.log(`\n⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔧 Database: ${process.env.DB_NAME || 'rich_jane_coffee'}`);
+    console.log(`🔧 Database: ${process.env.DB_NAME}`);
     console.log(`📊 Cache TTL: Menu=${process.env.MENU_CACHE_TTL || 300}s, Orders=${process.env.ORDER_CACHE_TTL || 30}s`);
     console.log(`\n✨ Server is ready to accept requests!\n`);
 });
