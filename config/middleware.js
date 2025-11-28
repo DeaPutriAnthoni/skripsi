@@ -16,7 +16,7 @@ app.use(helmet({
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
             imgSrc: ["'self'", "data:", "https:"],
-            connectSrc: ["'self'", `http://localhost:${PORT}`, `http://127.0.0.1:${PORT}`, `ws://localhost:${PORT}`, `ws://127.0.0.1:${PORT}`],
+            connectSrc: ["'self'", `https://your-vercel-domain.vercel.app`],
             frameSrc: ["'none'"],
             scriptSrcAttr: ["'unsafe-inline'"],
         },

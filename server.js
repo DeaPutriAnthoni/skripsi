@@ -138,14 +138,15 @@ process.on('SIGINT', async () => {
 });
 
 // Start server
-app.listen(PORT, '127.0.0.1', () => {
+app.listen(PORT, () => {
+
     console.log(`\n🚀 Rich and Jane Coffee API Server`);
-    console.log(`📍 Server running on http://localhost:${PORT}`);
-    console.log(`📱 Menu Display: http://localhost:${PORT}/menu.html?table=1`);
-    console.log(`🍳 Kitchen Display: http://localhost:${PORT}/kitchen.html`);
-    console.log(`📋 QR Generator: http://localhost:${PORT}/qrcode.html`);
-    console.log(`📚 API Documentation: http://localhost:${PORT}/api/docs`);
-    console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`📍 Server running on port ${PORT}`);
+    console.log(`📱 Menu Display: <your_frontend_url>/menu.html?table=1`);
+    console.log(`🍳 Kitchen Display: <your_frontend_url>/kitchen.html`);
+    console.log(`📋 QR Generator: <your_frontend_url>/qrcode.html`);
+    console.log(`📚 API Documentation: /api/docs`);
+    console.log(`💚 Health Check: /api/system/health`);
     console.log(`\n⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`🔧 Database: ${process.env.DB_NAME || 'rich_jane_coffee'}`);
     console.log(`📊 Cache TTL: Menu=${process.env.MENU_CACHE_TTL || 300}s, Orders=${process.env.ORDER_CACHE_TTL || 30}s`);
