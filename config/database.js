@@ -1,28 +1,29 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// Database Connection Pool - Secure Configuration
+// ✅ DATABASE CONNECTION POOL (RAILWAY PRODUCTION SAFE)
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'rich_jane_coffee',
+    host: process.env.DB_HOST,       // WAJIB dari Railway
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,  // ✅ PAKAI DB_PASS
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,      // ✅ WAJIB ADA
     waitForConnections: true,
-    connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 20,
+    connectionLimit: Number(process.env.DB_CONNECTION_LIMIT) || 10,
     queueLimit: 0,
     charset: 'utf8mb4'
 });
 
-// Test database connection
-pool.getConnection()
-    .then(connection => {
-        console.log('✓ Database connected successfully');
-        connection.release();
-    })
-    .catch(err => {
-        console.error('✗ Database connection failed:', err.message);
-        console.log('⚠️  Server continuing without database for testing...');
-        // Don't exit, continue without database
-    });
+// ✅ TEST CONNECTION
+(async () => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('✓ Database connected successfully (Railway)');
+    connection.release();
+  } catch (err) {
+    console.error('✗ Database connection failed:', err.message);
+    process.exit(1); // ⛔ Hentikan server jika DB gagal
+  }
+})();
 
 module.exports = pool;
